@@ -1,0 +1,20 @@
+#####################
+#                   #
+# merging pdf files #
+#                   #
+#####################
+
+Wednesday, July 22. 2009
+
+just found out you can merge pdfs with gs:
+
+gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=final.pdf -dBATCH 1st.pdf 2nd.pdf ... last.pfd
+
+
+cool stuff
+
+UPDATE:
+
+with pdftk you can even cut pages from a pdf:
+
+pdftk myDocument.pdf cat 1-9 26-end output removedPages.pdf

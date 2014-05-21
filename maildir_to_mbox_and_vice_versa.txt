@@ -1,0 +1,23 @@
+##################################
+#                                #
+# maildir to mbox and vice versa #
+#                                #
+##################################
+
+Tuesday, September 22. 2009
+
+Its no news that evolution just sucks (the email program, not the science theory). So its now surprise that some versions can not handle mbox files bigger than 2GB. Well some mutt versions can not handle that too, but that's something else of course :-)
+
+So what can you do when you hit that error? Simply convert the mbox files to maildir folders, split them and convert them back:
+
+1. copy the folder so you have an untouched version if something goes wrong: cp /home/$user/.evolution/mail/local/bigfolder2gb /tmp
+2. convert the file to a maildir folder: mbox2maildir /tmp/bigfolder2gb /tmp/bigfolder2gb-Maildir
+3. create a new maildir foldertouch /tmp/newMbox
+mbox2maildir /tmp/newMbox /tmp/bigfolder2gb-Maildir
+4. split the folders: mv /tmp/bigfolder2gb-Maildir/cur/122812* /tmp/bigfolder2gb-Maildir2/cur/
+5. make sure they are both smaler then 2GB: du -sh /tmp/bigfolder2gb-Maildir*
+6. convert them back (do this for both folders): cd bigfolder2gb-Maildir/cur
+for i in ; do cat $i | formail -c >> $MBOXFILE ; done
+7. copy them back into evolution: cp /tmp/bigfolder2gb-fixed /home/$user/.evolution/mail/local/
+
+remove the old mbox file and you are done. 

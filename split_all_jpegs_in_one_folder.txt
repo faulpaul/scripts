@@ -1,0 +1,22 @@
+##############################
+#                            #
+# spliting jpegs in a folder #
+#                            #
+##############################
+
+Monday, January 25. 2010
+
+While scanning some pages from a book, I was to lazy to scan one page each time, instead I scanned a double page each time and wrote this little script to split the images afterwards. I used it for jpegs, but it should work with most image files with little modifications.
+
+
+#!/bin/bash
+
+mkdir spliced
+for i in $(ls); do
+convert $i -crop 100%x50% +repage spliced/`basename $i .JPG`_%d.jpg
+mv spliced/`basename $i .JPG`_0.jpg spliced/`basename $i .JPG`_2.jpg
+echo "converting $i done"
+done
+
+
+You can find more tricks with ImageMagick here: http://www.fmwconcepts.com/imagemagick/tidbits/image.php

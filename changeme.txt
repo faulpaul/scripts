@@ -1,0 +1,72 @@
+#!/bin/bash
+
+#simple mac changer
+#usage changeme.sh interface mac
+
+# Make sure only root can run this script
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+#error function
+function errormessage {
+    echo "usage:"
+    echo "changeme.sh $interface change/reset"
+    echo "example:"
+    echo "changeme.sh eth0 change"
+    exit 1
+    }
+
+#setting the mac
+function settingmac {
+     echo 'setting random MAC address: ' $2
+     echo 'for device: ' $1
+     ifconfig $1 down
+     ifconfig $1 hw ether $2
+     ifconfig $1 up
+}
+
+#check for parameters
+if [ $# -gt 4 -o $# -lt 1 ]; then
+    errormessage
+fi
+
+#set std MAC
+eth0_std=#your mac
+wlan0_std=#your mac
+virbr0_std=#your mac
+
+#which interface
+interface=$1
+
+#change or reset
+action=$2
+
+#random MAC Address
+randmac=$(dd if=/dev/urandom bs=1 count=6 2>/dev/null | od -tx1 | head -1 | cut -d' ' -f2- | awk '{ print $1":"$2":"$3":"$4":"$5":"$6 }')
+
+case $action in
+    change)
+        settingmac $interface $randmac
+        ;;
+    reset)
+        case $interface in
+            eth0)
+                settingmac $interface $eth0_std
+                ;;
+            wlan0)
+                settingmac $interface $wlan_std
+                ;;
+            virbr0)
+                settingmac $interface $virbr0_std
+                ;;
+            *)
+                echo 'Unknown interface:' $interface
+                ;;
+         esac
+         ;;
+    *)
+        errormessage
+        ;;
+esac

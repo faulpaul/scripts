@@ -1,0 +1,39 @@
+#################
+#		#
+# upload script #
+#		#
+#################
+
+Sunday, February 7. 2010
+
+From time to time friends want to send me some files. Depending on the size they can either send them via email or upload them to one of the many free hoster. Since I want to keep full control over my data I don't really like free hoster. So I decided to make a little php upload file.
+The most important thing for anonymously upload is the download control. If anybody can upload and download files from your website your page might become a drop pox for some warez groups :-)
+I tried to solve this with two things:
+1. hidden folder
+2. changed the file name
+So if someone uploads a file he probably wont be able to find it on the web server.
+
+<form action="upload.php" method="post" enctype="multipart/form-data">
+<input type="file" name="file"><br>
+<input type="submit" value="upload">
+</form>
+
+<?php
+function random_gen($length)
+{
+	srand((double)microtime()*1000000);
+	$strset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" . "abcdefghijklmnopqrstuvwxyz" . "1234567890";
+	for($i = 0; $i < $length; $i++)
+	{
+		$random .= substr($strset,(rand()%(strlen($strset))), 1);
+	}
+	return $random;
+}
+
+$folder = "some/path/bla/";
+$rand_name = random_gen(10)."-";
+move_uploaded_file($_FILES['file']['tmp_name'], $folder.$rand_name.$_FILES['file']['name']);
+?>
+
+
+I used the random function from deepakssn.blogspot.com and fixed it so it works for me.

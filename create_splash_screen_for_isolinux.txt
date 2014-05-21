@@ -1,0 +1,34 @@
+##############################################
+#					     #
+# Create a custom splash screen for isolinux #
+#					     #
+##############################################
+
+Wednesday, April 14. 2010
+
+Creating a custume splash screen for isolinux is really easy. You might want to use this for you boot CD/DVD or PXE boot.
+You will need Gimp and the netpbm package
+
+   1. create the image you want and scale it to 640xXXX (should be less or equal 480)
+      Image --> Scale Image
+
+   2. since we will only use 14 color channels make sure the image does not have to many details
+
+   3. now we adjust the number of color channels to 14. Actually we could use 16, but we reserve 2 channels for the text colors
+      Image --> Mode --> Indexed, entering 14 as the "Maximum number of colors"
+
+   4. now we save the image as gif
+      File --> Save As
+
+   5. we need to convert the gif file to a ppm file:
+      giftopnm < splash.gif > splash.ppm
+
+   6. and to the final lss file:
+      ppmtolss16 < splash.ppm > splash.lss
+
+   7. copy the lss file to the "/isolinux/splash.lss" folder on your boot iso or the pxe boot folder
+
+   8. Now boot up a machine and see you new fany boot screen.
+
+found via: http://frantisek.rysanek.sweb.cz/
+found via: http://wings.buffalo.edu/

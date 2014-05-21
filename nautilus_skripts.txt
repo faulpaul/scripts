@@ -1,0 +1,41 @@
+####################
+#                  #
+# nautilus skripts #
+#                  #
+####################
+
+Nautilus-Scripts
+OMG!
+
+I just created a package to install a set of nautilus-scripts on several machines... and there is no global installation folder.
+There is some discussion going on if this is a good feature. Some people don't think so:
+
+    I am not really convinced that system-wide templates and scripts are a real benefit.
+    It might be a good idea, but this feature may be abused by admins or distributors to pollute user menus with un-removable system-wide "enforced" scripts/templates. (1)
+
+
+I mean wtf? The bad sysadmin is going to spam my nautilus menu...
+
+
+UPDATE:
+For those of you who want to know how to fix this in an rpm:
+
+
+%post
+#ugly hack to get this in all user home dirs
+HOMEFOLDERS=`ls /home/ | grep -v lost+found`
+for i in $HOMEFOLDERS; do
+ln -s /usr/share/nautilus/nautilus-scripts/* /home/$i/.gnome2/nautilus-scripts/
+done
+
+%postun
+#ugly hack to remove this from user home dirs
+HOMEFOLDERS=`ls /home/ | grep -v lost+found`
+for i in $HOMEFOLDERS; do
+rm -rf /home/$i/.gnome2/nautilus-scripts/unprotect-pdf.sh
+done
+
+
+There is even a bug open for this: http://bugzilla.gnome.org/show_bug.cgi?id=68948
+
+(1)http://markmail.org/message/4hboz55eh7xvblzc

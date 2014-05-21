@@ -1,0 +1,20 @@
+############
+#          #
+# mp3split #
+#          #
+############
+
+Monday, November 16. 2009
+
+I just got a mp3 file from a friend yesterday and realized that that the whole album was in one mp3 file. Luckily he send me a cue file with that. So I just installed the mp3splt rpms or deps and of you go:
+
+
+mp3splt -c file.cue -o @n-@a-@t file.mp3
+
+
+where:
+@n: track number
+@a: artist
+@t: title
+
+For further info see the man page

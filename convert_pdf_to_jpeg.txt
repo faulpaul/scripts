@@ -1,0 +1,23 @@
+##########################
+#                        #
+# Converting pdf to jpeg #
+#                        #
+##########################
+
+Saturday, December 19. 2009
+
+I just had some pdf files which I needed to convert to jpeg. I first used:
+
+
+convert input.pdf output.jpeg
+
+
+but the Quality was horrible, so after some research I found the right tool.
+Convert itself uses gs (Ghostscript) internaly, so gs is the way to go:
+
+
+gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r150 -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -dMaxStripSize=8192 -sOutputFile=newname_%d.jpeg input.pdf
+
+
+where %d is the page count.
+Fast and good quality. All I need! 
