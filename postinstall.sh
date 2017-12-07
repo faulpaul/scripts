@@ -27,8 +27,11 @@ useradd paul
 # sudoers
 echo "paul    ALL=(ALL)       ALL" >> /etc/sudoers
 
-#disable SELinux
+# disable SELinux
 sed -i -e 's/enforcing/permissive/g' /etc/selinux/config
+
+# set iptables for ornitho.de blacklist
+iptables -t nat -A POSTROUTING --destination 79.125.20.157 -j SNAT --to-source 188.68.45.14
 
 # other todos:
 echo "SET PW FOR paul, CHANGE root PW, ADD MYSQL FILE" 
