@@ -1,3 +1,6 @@
+# get the script
+# wget https://raw.githubusercontent.com/faulpaul/scripts/master/postinstall.sh
+
 # install needed software
 dnf -y remove vim-minimal
 dnf -y install fail2ban docker dnf-automatic screen docker-compose git vim sudo nmap
@@ -24,5 +27,8 @@ useradd paul
 # sudoers
 echo "paul    ALL=(ALL)       ALL" >> /etc/sudoers
 
+#disable SELinux
+sed -i -e 's/enforcing/permissive/g' /etc/selinux/config
+
 # other todos:
-echo "SET PW FOR paul, ADD MYSQL FILE" 
+echo "SET PW FOR paul, CHANGE root PW, ADD MYSQL FILE" 
